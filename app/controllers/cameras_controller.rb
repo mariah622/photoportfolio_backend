@@ -1,29 +1,29 @@
 class CamerasController < ApplicationController
     def index
-      @camera = Camera.all
-  
-      render json: @camera
+      cameras = Camera.all
+      render json: cameras
     end
   
     def show 
-        @camera = Camera.find(params[:id])
-        render json: @camera
+        camera = Camera.find(params[:id])
+        render json: camera
       end
     
       def create 
-        @camera = Camera.new(camera_params)
+        camera = Camera.new(camera_params)
     
-        if @camera.save 
-          render json: @camera 
+        if camera.save 
+          render json: camera
         else   
-          render json: @camera.errors, status: unprocessable_entity # {error: 'Error creating'}
+            render json: {error: 'Ooops! There was an error adding the camera.'}
+            
         end
       
       end
 
       def destroy
-        @camera = Camera.find(params[:id])
-        @camera.destroy
+        camera = Camera.find(params[:id])
+        camera.destroy
       end
   
 
@@ -32,7 +32,7 @@ class CamerasController < ApplicationController
     
     
     def camera_params
-        params.permit(:brand, :name, :id, :camera_type, :overview)
+        params.require(:camera).permit(:brand, :name, :id, :camera_type, :overview)
     end
 end
 

@@ -1,3 +1,4 @@
 class Photo < ApplicationRecord
-    has_many :comments
+    validates :image, :likes, :caption, presence: true 
+    validates :image, uniqueness: true 
 end
